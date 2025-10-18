@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { models } from "../data/models";
 import ModelCard from "../components/ModelCard";
 import ThemeToggle from "../components/ThemeToggle";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
+  const { isDarkMode } = useTheme();
 
   return (
-    <div className={darkMode ? "dark bg-gray-900 text-white min-h-screen" : "bg-white text-black min-h-screen"}>
+    <div className={isDarkMode ? "dark bg-gray-900 text-white min-h-screen" : "bg-white text-black min-h-screen"}>
       <div className="flex">
         {/* Sidebar */}
         <div className="w-60">
@@ -18,7 +19,7 @@ export default function Home() {
         <div className="flex-1 p-5">
           <div className="flex justify-between items-center mb-5">
             <h1 className="text-2xl font-bold">AI Model Hub</h1>
-            <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+            <ThemeToggle />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

@@ -1,8 +1,13 @@
 import React from "react";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
 function App() {
-  return <Home />;
+  return (
+    <ThemeProvider>
+      <Home />
+    </ThemeProvider>
+  );
 }
 
 export default App;
