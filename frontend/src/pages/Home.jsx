@@ -16,66 +16,11 @@ import { Github, Star, GitFork, Zap, Heart, Code, Users, Rocket, Brain, Globe,
 ChevronRight, ArrowRight, ExternalLink, Trophy, Target, Sparkles, Book, MessageCircle } from "lucide-react"; 
 
 
-export default function Home({ showModels, setShowModels, darkMode, setDarkMode }) {
-
-  const handleExploreModels = () => setShowModels(true);
-
-  // If showModels is true - Show models list
-  if (showModels) {
-    return (
-      <div className={darkMode ? "dark bg-background text-foreground min-h-screen" : "bg-background text-foreground min-h-screen"}>
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container flex h-14 items-center">
-            <Button 
-              variant="ghost" 
-              onClick={() => setShowModels(false)}
-              className="flex items-center gap-2"
-            >
-              <ChevronRight className="h-4 w-4 rotate-180" />
-              Back to Home
-            </Button>
-            <Separator orientation="vertical" className="mx-4 h-6" />
-            <h1 className="text-lg font-semibold">AI Model Hub</h1>
-          </div>
-        </header>
-
-        <div className="flex">
-          <Sidebar isOpen={true} onClose={() => {}} />
-          <main className="flex-1 p-6">
-            <div className="container">
-              <div className="mb-8">
-                <h2 className="text-3xl font-bold tracking-tight mb-2">Available Models</h2>
-                <p className="text-muted-foreground">Explore our collection of machine learning models</p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {models.map((model) => (
-                  <ModelCard key={model.id} model={model} />
-                ))}
-              </div>
-              
-              {models.length === 0 && (
-                <Card className="text-center py-12">
-                  <CardContent className="pt-6">
-                    <Brain className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                    <CardTitle className="mb-2">No models yet</CardTitle>
-                    <CardDescription>Be the first to contribute a model!</CardDescription>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-          </main>
-        </div>
-      </div>
-    );
-  }
-
-  
+export default function Home({darkMode, setDarkMode }) {
   return (
     <div className={darkMode ? "dark" : ""}>
       {/* ✅ Use Navbar component here */}
-      <Navbar 
-        onExploreModels={handleExploreModels} 
+      <Navbar  
         darkMode={darkMode} 
         setDarkMode={setDarkMode} 
       />
@@ -107,15 +52,6 @@ export default function Home({ showModels, setShowModels, darkMode, setDarkMode 
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-              <Button 
-                onClick={() => setShowModels(true)}
-                size="lg" 
-                className="group text-lg hover:scale-105 transition-all duration-300 flex items-center"
-              >
-                <Rocket className="w-5 h-5 mr-2 group-hover:translate-x-1 transition-transform" />
-                Explore Models
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
               <Button 
                 variant="outline" 
                 size="lg" 

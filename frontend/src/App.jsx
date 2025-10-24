@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import ExploreModel from "./pages/ExploreModel";
 
 function App() {
   const [showModels, setShowModels] = useState(false);
@@ -28,13 +29,11 @@ function App() {
   return (
     <>
       {/* Global Navbar:visible on all pages */}
-      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode}  />
 
       <div className={`min-h-screen ${darkMode ? "bg-background text-foreground" : "bg-white text-gray-900"}`}>
         <Routes>
-          <Route
-            path="/"
-            element={
+          <Route path="/" element={
               <Home
                 showModels={showModels}
                 setShowModels={setShowModels}
@@ -54,6 +53,11 @@ function App() {
               />
             }
           />
+          <Route
+  path="/exploremodel"
+  element={<ExploreModel darkMode={darkMode} setDarkMode={setDarkMode} />}
+/>
+
         </Routes>
       </div>
     </>
