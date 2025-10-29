@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Menu, ArrowRight, Rocket, Sun, Moon } from "lucide-react";
 
-// Reusable component for the "Explore Models" button
+// --- Reusable "Explore Models" Button ---
 const ExploreModelsButton = ({ type, onClick }) => {
   if (type === "desktop") {
     return (
@@ -34,6 +34,7 @@ const ExploreModelsButton = ({ type, onClick }) => {
       </Button>
     );
   }
+
   if (type === "mobileSheet") {
     return (
       <Button
@@ -47,12 +48,15 @@ const ExploreModelsButton = ({ type, onClick }) => {
       </Button>
     );
   }
+
   return null;
 };
 
-const Navbar = ({ onExploreModels, darkMode, setDarkMode }) => {
+// --- MAIN NAVBAR COMPONENT ---
+const Navbar = ({ darkMode, setDarkMode }) => {
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation(); // ✅ Get current route
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -61,12 +65,26 @@ const Navbar = ({ onExploreModels, darkMode, setDarkMode }) => {
   }, []);
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) element.scrollIntoView({ behavior: "smooth" });
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) element.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
-  // Function to check if link is active
-  const isActive = (path) => location.pathname === path;
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // ✅ Function to navigate to /exploremodel
+  const handleExploreModels = () => {
+    navigate("/exploremodel");
+  };
 
   return (
     <header
@@ -80,6 +98,7 @@ const Navbar = ({ onExploreModels, darkMode, setDarkMode }) => {
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo & Mobile Menu */}
           <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild>
                 <Button
@@ -108,12 +127,9 @@ const Navbar = ({ onExploreModels, darkMode, setDarkMode }) => {
                     <SheetClose asChild>
                       <Link
                         to="/"
-                        className={`text-lg font-medium text-left py-2 hover:text-primary transition-colors ${
-                          isActive("/")
-                            ? "text-primary font-bold"
-                            : darkMode
-                            ? "text-white"
-                            : "text-gray-900"
+                        onClick={scrollToTop}
+                        className={`text-lg font-medium text-left hover:text-primary transition-colors py-2 ${
+                          darkMode ? "text-white" : "text-gray-900"
                         }`}
                       >
                         Home
@@ -122,23 +138,33 @@ const Navbar = ({ onExploreModels, darkMode, setDarkMode }) => {
                     <SheetClose asChild>
                       <Link
                         to="/about"
-                        className={`text-lg font-medium text-left py-2 hover:text-primary transition-colors ${
-                          isActive("/about")
-                            ? "text-primary font-bold"
-                            : darkMode
-                            ? "text-white"
-                            : "text-gray-900"
+                        onClick={scrollToTop}
+                        className={`text-lg font-medium text-left hover:text-primary transition-colors py-2 ${
+                          darkMode ? "text-white" : "text-gray-900"
                         }`}
                       >
                         About
                       </Link>
                     </SheetClose>
                     <SheetClose asChild>
+                      <Link
+                        to="/contributors"
+                        onClick={scrollToTop}
+                        className={`text-lg font-medium text-left hover:text-primary transition-colors py-2 ${
+                          darkMode ? "text-white" : "text-gray-900"
+                        }`}
+                      >
+                        Contributors
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
                       <button
                         onClick={() => scrollToSection("contribute")}
-                        className={`text-lg font-medium text-left py-2 hover:text-primary transition-colors`}
+                        className={`text-lg font-medium text-left hover:text-primary transition-colors py-2 ${
+                          darkMode ? "text-white" : "text-gray-900"
+                        }`}
                       >
-                        Contribute
+                        Want to contribute?
                       </button>
                     </SheetClose>
                   </div>
@@ -148,7 +174,7 @@ const Navbar = ({ onExploreModels, darkMode, setDarkMode }) => {
                     <SheetClose asChild>
                       <ExploreModelsButton
                         type="mobileSheet"
-                        onClick={onExploreModels}
+                        onClick={handleExploreModels}
                       />
                     </SheetClose>
                   </div>
@@ -174,42 +200,65 @@ const Navbar = ({ onExploreModels, darkMode, setDarkMode }) => {
             </div>
           </div>
 
-          {/* Desktop Nav */}
-         <NavigationMenu className="hidden md:flex">
-  <NavigationMenuList>
-    {[
-      { name: "Home", path: "/" },
-      { name: "About", path: "/about" },
-      { name: "Explore Models", path: "/exploremodel" },
-    ].map((item) => (
-      <NavigationMenuItem key={item.path}>
-        <NavigationMenuLink asChild className="relative font-medium text-sm px-4 py-2 cursor-pointer">
-          <Link
-            to={item.path}
-            className={`transition-colors duration-300 ${
-              isActive(item.path)
-                ? "text-primary font-bold"
-                : darkMode
-                ? "text-white"
-                : "text-gray-900"
-            }`}
-          >
-            {item.name}
-            {/* Underline */}
-            <span
-              className={`absolute left-0 -bottom-1 h-[2px] bg-primary transition-all duration-300 ${
-                isActive(item.path) ? "w-full" : "w-0"
-              }`}
-            ></span>
-          </Link>
-        </NavigationMenuLink>
-      </NavigationMenuItem>
-    ))}
-  </NavigationMenuList>
-</NavigationMenu>
+          {/* Desktop Navigation with Underline Animation */}
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              {[
+                { name: "Home", path: "/" },
+                { name: "About", path: "/about" },
+                { name: "Contributors", path: "/contributors" },
+              ].map((item) => (
+                <NavigationMenuItem key={item.name}>
+                  <NavigationMenuLink
+                    asChild
+                    className={`relative font-medium text-sm px-4 py-2 cursor-pointer transition-colors ${
+                      darkMode ? "text-white" : "text-gray-900"
+                    } hover:text-primary`}
+                  >
+                    <Link to={item.path} onClick={scrollToTop}>
+                      {item.name}
+                      {/* Underline Animation */}
+                      <span
+                        className={`absolute left-0 bottom-0 h-[2px] rounded-full transition-all duration-300 ${
+                          location.pathname === item.path
+                            ? darkMode
+                              ? "w-full bg-white"
+                              : "w-full bg-primary"
+                            : "w-0 bg-transparent group-hover:w-full bg-primary"
+                        }`}
+                      ></span>
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
+
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  className={`relative font-medium text-sm px-4 py-2 hover:text-primary transition-colors cursor-pointer ${
+                    darkMode ? "text-white" : "text-gray-900"
+                  }`}
+                  onClick={() => scrollToSection("contribute")}
+                >
+                  Want to contribute?
+                  <span
+                    className={`absolute left-0 bottom-0 h-[2px] rounded-full transition-all duration-300 ${
+                      location.hash === "#contribute"
+                        ? darkMode
+                          ? "w-full bg-white"
+                          : "w-full bg-primary"
+                        : "w-0 bg-transparent"
+                    }`}
+                  ></span>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
 
           {/* Actions */}
           <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* ✅ Explore Models navigates to /exploremodel */}
+            <ExploreModelsButton type="desktop" onClick={handleExploreModels} />
+
             {/* Theme Toggle */}
             <button
               onClick={() => setDarkMode(!darkMode)}

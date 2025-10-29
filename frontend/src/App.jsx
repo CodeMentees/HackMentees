@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import { AnimatePresence } from "framer-motion";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import ExploreModel from "./pages/ExploreModel";
@@ -53,10 +54,7 @@ function App() {
               />
             }
           />
-          <Route
-  path="/exploremodel"
-  element={<ExploreModel darkMode={darkMode} setDarkMode={setDarkMode} />}
-/>
+          <Route path="/exploremodel"element={<ExploreModel darkMode={darkMode} setDarkMode={setDarkMode} />}/>
 
         </Routes>
       </div>
