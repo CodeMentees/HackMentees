@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
-<<<<<<< HEAD
 import ExploreModel from "./pages/ExploreModel";
-=======
-import Contributors from "./pages/Contributors"; //
-
->>>>>>> c53ef2e4201185358e359e4eaf741a9b37ece2aa
+import Contributors from "./pages/Contributors";
 
 function App() {
   const [showModels, setShowModels] = useState(false);
@@ -16,7 +12,7 @@ function App() {
     return localStorage.getItem("theme") === "dark";
   });
 
-  const navigate = useNavigate(); //
+  const navigate = useNavigate();
 
   const handleExploreModels = () => {
     navigate("/");
@@ -24,7 +20,6 @@ function App() {
     setShowModels(true);
   };
 
-  
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -37,20 +32,22 @@ function App() {
 
   return (
     <>
-      {/* Global Navbar:visible on all pages */}
-<<<<<<< HEAD
-      <Navbar darkMode={darkMode} setDarkMode={setDarkMode}  />
-=======
+      {/* ✅ Global Navbar (visible on all pages) */}
       <Navbar
         darkMode={darkMode}
         setDarkMode={setDarkMode}
         onExploreModels={handleExploreModels}
       />
->>>>>>> c53ef2e4201185358e359e4eaf741a9b37ece2aa
 
-      <div className={`min-h-screen ${darkMode ? "bg-background text-foreground" : "bg-white text-gray-900"}`}>
+      <div
+        className={`min-h-screen ${
+          darkMode ? "bg-background text-foreground" : "bg-white text-gray-900"
+        }`}
+      >
         <Routes>
-          <Route path="/" element={
+          <Route
+            path="/"
+            element={
               <Home
                 showModels={showModels}
                 setShowModels={setShowModels}
@@ -70,13 +67,15 @@ function App() {
               />
             }
           />
-<<<<<<< HEAD
           <Route
-  path="/exploremodel"
-  element={<ExploreModel darkMode={darkMode} setDarkMode={setDarkMode} />}
-/>
-=======
-
+            path="/exploremodel"
+            element={
+              <ExploreModel
+                darkMode={darkMode}
+                setDarkMode={setDarkMode}
+              />
+            }
+          />
           <Route
             path="/contributors"
             element={
@@ -86,12 +85,9 @@ function App() {
               />
             }
           />
->>>>>>> c53ef2e4201185358e359e4eaf741a9b37ece2aa
-
         </Routes>
       </div>
     </>
-    
   );
 }
 

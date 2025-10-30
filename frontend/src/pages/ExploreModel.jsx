@@ -18,17 +18,17 @@ const ExploreModel = ({ darkMode, setDarkMode }) => {
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} activePage="explore" />
 
       {/* Page Header */}
-      <header className="pt-24 px-6 text-center">
-        <h2 className="text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-500 bg-clip-text text-transparent">
-           Explore Models
+      <header className="pt-24 px-6 text-center mt-8">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-500 bg-clip-text text-transparent">
+             Explore Models
           </h2>
-        <p className="text-gray-600 dark:text-gray-300 text-lg mb-12">
-          Browse all available community-contributed machine learning models.
-        </p>
+          <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+             Browse all available community-contributed machine learning models.
+          </p>
       </header>
 
       {/* Models Grid */}
-      <main className="max-w-7xl mx-auto px-6 pb-20">
+      <main className="max-w-7xl mx-auto px-6 pb-20 mt-8">
         {models.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {models.map((model, index) => (
