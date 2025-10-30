@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Contributors from "./pages/Contributors"; //
-
+import ExploreModel from "./pages/ExploreModel";
+import Contributors from "./pages/Contributors";
 
 function App() {
   const [showModels, setShowModels] = useState(false);
@@ -12,7 +12,7 @@ function App() {
     return localStorage.getItem("theme") === "dark";
   });
 
-  const navigate = useNavigate(); //
+  const navigate = useNavigate();
 
   const handleExploreModels = () => {
     navigate("/");
@@ -20,7 +20,6 @@ function App() {
     setShowModels(true);
   };
 
-  
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -33,14 +32,18 @@ function App() {
 
   return (
     <>
-      {/* Global Navbar:visible on all pages */}
+      {/* ✅ Global Navbar (visible on all pages) */}
       <Navbar
         darkMode={darkMode}
         setDarkMode={setDarkMode}
         onExploreModels={handleExploreModels}
       />
 
-      <div className={`min-h-screen ${darkMode ? "bg-background text-foreground" : "bg-white text-gray-900"}`}>
+      <div
+        className={`min-h-screen ${
+          darkMode ? "bg-background text-foreground" : "bg-white text-gray-900"
+        }`}
+      >
         <Routes>
           <Route
             path="/"
@@ -64,7 +67,15 @@ function App() {
               />
             }
           />
-
+          <Route
+            path="/exploremodel"
+            element={
+              <ExploreModel
+                darkMode={darkMode}
+                setDarkMode={setDarkMode}
+              />
+            }
+          />
           <Route
             path="/contributors"
             element={
@@ -74,11 +85,9 @@ function App() {
               />
             }
           />
-
         </Routes>
       </div>
     </>
-    
   );
 }
 
