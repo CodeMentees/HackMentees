@@ -11,7 +11,7 @@ const ModelCard = ({ model }) => {
         </span>
       </div>
     </div>
-  );
+  );  
 };
 
 export default ModelCard;

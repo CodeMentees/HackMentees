@@ -75,13 +75,8 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     }
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const goToExploreModels = () => {
-    navigate("/exploremodel");
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  const goToExploreModels = () => navigate("/exploremodel");
 
   return (
     <header
@@ -121,42 +116,19 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                 <div className="flex flex-col space-y-6 mt-6 ">
                   {/* === Mobile Nav Links === */}
                   <div className="flex flex-col space-y-4">
-                    <SheetClose asChild>
-                      <Link
-                        to="/"
-                        onClick={scrollToTop}
-                        className={`text-lg font-medium text-left py-2 hover:text-primary transition-colors ${
-                          darkMode ? "text-white" : "text-gray-900"
-                        }`}
-                      >
-                        Home
-                      </Link>
-                    </SheetClose>
-
-                    <SheetClose asChild>
-                      <Link
-                        to="/about"
-                        onClick={scrollToTop}
-                        className={`text-lg font-medium text-left py-2 hover:text-primary transition-colors ${
-                          darkMode ? "text-white" : "text-gray-900"
-                        }`}
-                      >
-                        About
-                      </Link>
-                    </SheetClose>
-
-                    <SheetClose asChild>
-                      <Link
-                        to="/contributors"
-                        onClick={scrollToTop}
-                        className={`text-lg font-medium text-left py-2 hover:text-primary transition-colors ${
-                          darkMode ? "text-white" : "text-gray-900"
-                        }`}
-                      >
-                        Contributors
-                      </Link>
-                    </SheetClose>
-
+                    {["/", "/about", "/contributors"].map((path, idx) => (
+                      <SheetClose asChild key={path}>
+                        <Link
+                          to={path}
+                          onClick={scrollToTop}
+                          className={`text-lg font-medium text-left py-2 hover:text-primary transition-colors ${
+                            darkMode ? "text-white" : "text-gray-900"
+                          }`}
+                        >
+                          {["Home", "About", "Contributors"][idx]}
+                        </Link>
+                      </SheetClose>
+                    ))}
                     <SheetClose asChild>
                       <button
                         onClick={() => scrollToSection("contribute")}
@@ -169,7 +141,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                     </SheetClose>
                   </div>
 
-                  {/* === Mobile Explore Models Button === */}
                   <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                     <SheetClose asChild>
                       <ExploreModelsButton
@@ -200,55 +171,47 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             </div>
           </div>
 
-          {/* === Centered Desktop Nav === */}
+          {/* === Centered Desktop Nav with underline === */}
           <div className="hidden md:flex flex-1 justify-center items-center">
             <NavigationMenu>
               <NavigationMenuList className="flex space-x-8">
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={`font-medium text-sm px-2 py-2 hover:text-primary transition-colors cursor-pointer ${
-                      darkMode ? "text-white" : "text-gray-900"
-                    }`}
-                    onClick={scrollToTop}
-                  >
-                    <Link to="/">Home</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
+                {[
+                  { name: "Home", path: "/" },
+                  { name: "About", path: "/about" },
+                  { name: "Contributors", path: "/contributors" },
+                ].map(({ name, path }) => (
+                  <NavigationMenuItem key={path}>
+                    <Link
+  to={path}
+  onClick={scrollToTop}
+  className={`relative font-medium text-sm px-2 py-2 transition-colors cursor-pointer ${
+    darkMode
+      ? "text-white hover:text-primary"
+      : "text-gray-900 hover:text-primary"
+  }`}
+>
+  {name}
+  <span
+    className={`absolute left-0 bottom-0 h-[2px] bg-primary rounded transition-all duration-300 ease-in-out ${
+      location.pathname === path ? "w-full opacity-100" : "w-0 opacity-0"
+    }`}
+  ></span>
+</Link>
+
+                  </NavigationMenuItem>
+                ))}
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={`font-medium text-sm px-2 py-2 hover:text-primary transition-colors cursor-pointer ${
-                      darkMode ? "text-white" : "text-gray-900"
-                    }`}
-                    onClick={scrollToTop}
-                  >
-                    <Link to="/about">About</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={`font-medium text-sm px-2 py-2 hover:text-primary transition-colors cursor-pointer ${
-                      darkMode ? "text-white" : "text-gray-900"
-                    }`}
-                    onClick={scrollToTop}
-                  >
-                    <Link to="/contributors">Contributors</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    className={`font-medium text-sm px-2 py-2 hover:text-primary transition-colors cursor-pointer ${
-                      darkMode ? "text-white" : "text-gray-900"
-                    }`}
+                  <button
                     onClick={() => scrollToSection("contribute")}
+                    className={`relative font-medium text-sm px-2 py-2 transition-colors cursor-pointer ${
+                      darkMode
+                        ? "text-white hover:text-primary"
+                        : "text-gray-900 hover:text-primary"
+                    }`}
                   >
                     Want to contribute?
-                  </NavigationMenuLink>
+                  </button>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
