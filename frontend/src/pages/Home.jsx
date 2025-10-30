@@ -162,8 +162,7 @@ export default function Home({ showModels, setShowModels, darkMode, setDarkMode 
                 Whether you're a seasoned developer or just starting out, we have opportunities for everyone.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center max-w-lg mx-auto">
-                <Button 
-                  size="lg" 
+                <Button
                   variant="secondary"
                   className="hover:scale-105 transition-transform duration-300"
                   asChild
@@ -174,8 +173,7 @@ export default function Home({ showModels, setShowModels, darkMode, setDarkMode 
                     <ExternalLink className="w-4 h-4 ml-2" />
                   </a>
                 </Button>
-                <Button 
-                  size="lg" 
+                <Button
                   variant="outline"
                   className="hover:scale-105 transition-transform duration-300"
                   asChild
@@ -204,22 +202,26 @@ export default function Home({ showModels, setShowModels, darkMode, setDarkMode 
               </div>
               <p className="text-muted-foreground mb-8 text-lg">Built with ❤️ for the open-source community</p>
               
-              <div className="flex justify-center items-center space-x-6 mb-8">
-                <Button variant="default" size="sm" className="hover:bg-muted/50" asChild>
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mb-8">
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="hover:bg-muted/50 h-10 rounded-md px-8 sm:h-8 sm:px-3 sm:text-xs"
+                  asChild>
                   <a href="https://github.com/CodeMentees/HackMentees" className="flex items-center">
                     <Github className="w-4 h-4 mr-2" />
                     GitHub
                   </a>
                 </Button>
-                <Button variant="default" size="sm" className="hover:bg-muted/50 flex items-center">
+                <Button variant="default" size="sm" className="hover:bg-muted/50 flex items-center  h-10 rounded-md px-8 sm:h-8 sm:px-3 sm:text-xs">
                   <Book className="w-4 h-4 mr-2" />
                   Documentation
                 </Button>
-                <Button variant="default" size="sm" className="hover:bg-muted/50 flex items-center">
+                <Button variant="default" size="sm" className="hover:bg-muted/50 flex items-center  h-10 rounded-md px-8 sm:h-8 sm:px-3 sm:text-xs">
                   <Users className="w-4 h-4 mr-2" />
                   Community
                 </Button>
-                <Button variant="default" size="sm" className="hover:bg-muted/50 flex items-center">
+                <Button variant="default" size="sm" className="hover:bg-muted/50 flex items-center  h-10 rounded-md px-8 sm:h-8 sm:px-3 sm:text-xs">
                   <MessageCircle className="w-4 h-4 mr-2" />
                   Blog
                 </Button>
