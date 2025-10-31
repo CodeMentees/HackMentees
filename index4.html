@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HacktoberFest 2025 | To-Do List</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #2b2b40);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffcc00;
+      margin-bottom: 20px;
+    }
+
+    .todo-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      width: 90%;
+      max-width: 800px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: space-between;
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      background-color: #ffcc00;
+      color: #1e1e2f;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ffd633;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    th, td {
+      text-align: center;
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .priority-High { color: #ff4c4c; font-weight: bold; }
+    .priority-Medium { color: #ffaa33; font-weight: bold; }
+    .priority-Low { color: #66ff99; font-weight: bold; }
+
+    .completed {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .action-btn {
+      margin: 0 3px;
+      padding: 5px 8px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      color: white;
+    }
+
+    .edit-btn { background-color: #3385ff; }
+    .delete-btn { background-color: #ff4d4d; }
+    .done-btn { background-color: #00cc66; }
+
+  </style>
+</head>
+<body>
+
+  <h1>🎉 HacktoberFest 2025 | To-Do List</h1>
+
+  <div class="todo-container">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="taskInput">📝 Task:</label>
+        <input type="text" id="taskInput" placeholder="Enter your task...">
+      </div>
+      <div class="form-group">
+        <label for="dueDate">📅 Due Date:</label>
+        <input type="date" id="dueDate">
+      </div>
+      <div class="form-group">
+        <label for="priority">⚠️ Priority:</label>
+        <select id="priority">
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+      <button id="addBtn">Add Task</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Task</th>
+          <th>Added On</th>
+          <th>Due Date</th>
+          <th>Priority</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="taskBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const taskInput = document.getElementById('taskInput');
+    const dueDate = document.getElementById('dueDate');
+    const priority = document.getElementById('priority');
+    const taskBody = document.getElementById('taskBody');
+    const addBtn = document.getElementById('addBtn');
+
+    let tasks = [];
+
+    function addTask() {
+      const taskText = taskInput.value.trim();
+      const taskDue = dueDate.value;
+      const taskPriority = priority.value;
+
+      if (taskText === "") {
+        alert("Please enter a task!");
+        return;
+      }
+
+      const task = {
+        text: taskText,
+        date: new Date().toLocaleString(),
+        due: taskDue || "No date",
+        priority: taskPriority,
+        completed: false
+      };
+
+      tasks.push(task);
+      taskInput.value = "";
+      dueDate.value = "";
+      renderTasks();
+    }
+
+    function renderTasks() {
+      taskBody.innerHTML = "";
+      tasks.forEach((task, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td class="${task.completed ? 'completed' : ''}">${task.text}</td>
+          <td>${task.date}</td>
+          <td>${task.due}</td>
+          <td class="priority-${task.priority}">${task.priority}</td>
+          <td>
+            <button class="action-btn done-btn" onclick="toggleComplete(${index})">✔</button>
+            <button class="action-btn edit-btn" onclick="editTask(${index})">✏️</button>
+            <button class="action-btn delete-btn" onclick="deleteTask(${index})">🗑️</button>
+          </td>
+        `;
+        taskBody.appendChild(row);
+      });
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      renderTasks();
+    }
+
+    function toggleComplete(index) {
+      tasks[index].completed = !tasks[index].completed;
+      renderTasks();
+    }
+
+    function editTask(index) {
+      const newTask = prompt("Edit your task:", tasks[index].text);
+      if (newTask !== null && newTask.trim() !== "") {
+        tasks[index].text = newTask.trim();
+        renderTasks();
+      }
+    }
+
+    addBtn.addEventListener("click", addTask);
+  </script>
+</body>
+</html>
